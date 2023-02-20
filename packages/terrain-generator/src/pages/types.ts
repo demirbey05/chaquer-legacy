@@ -1,8 +1,8 @@
 //Point's belonging
 export enum TerrainType {
-  Sea = 1,
+  Land = 1,
+  Sea,
   Mount,
-  Land,
   None,
 }
 
@@ -118,13 +118,18 @@ export class IntervalProcessor {
     for (let interval of this.intervals) {
       numberOfUsers.push(interval.numberOfElements);
     }
+    console.log(numberOfUsers);
 
-    let sortedNumberOfUsers = numberOfUsers.sort(function (a, b) {
+    let sortedNumberOfUsers = [...numberOfUsers].sort(function (a, b) {
       return b - a;
     });
+    console.log(sortedNumberOfUsers);
     let indexSorted = sortedNumberOfUsers.map((element) => {
+      console.log(element);
+      console.log(numberOfUsers.indexOf(element));
       return numberOfUsers.indexOf(element);
     });
+    console.log(indexSorted);
 
     indexSorted.forEach((value, index) => {
       this.intervals[value].class = TerrainPrecedence[index];

@@ -56,5 +56,6 @@ export function generatePerlinValues(
     }
     valuesArray.push(row);
   }
+  console.log(intervals);
   return valuesArray;
 }
