@@ -12,16 +12,16 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
   const width = 300;
   const height = 300;
-  const [values, setValues] = useState<TerrainType[][]>(
-    generatePerlinValues(height, width)
-  );
+  const [values, setValues] = useState<TerrainType[][]>([]);
   const [refresh, setRefresh] = useState<number>(0);
-  /*useEffect(() => {
-    const terrain = generateValues(height, width);
-    console.log(terrain);
-    setValues(terrain);
-  }, []);*/
-  console.log(values);
+
+  const handleRefresh = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    const values = generatePerlinValues(height, width);
+    setValues(values);
+    setRefresh(() => refresh + 1);
+    console.log(refresh);
+  };
 
   return (
     <>
@@ -29,10 +29,23 @@ export default function Home() {
         <h1 className="text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
           XWar Game Generator
         </h1>
+
         <div>
-          <Grid width={width} height={height} values={values} />
+          {refresh === 0 ? null : (
+            <Grid width={width} height={height} values={values} />
+          )}
         </div>
-        <div></div>
+        <div className="flex flex-row">
+          <button className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
+            Go
+          </button>
+          <button
+            className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
+            onClick={handleRefresh}
+          >
+            {refresh === 0 ? "Generate" : "Refresh the Map"}
+          </button>
+        </div>
       </div>
     </>
   );

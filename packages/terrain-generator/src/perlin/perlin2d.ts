@@ -1,4 +1,4 @@
-export const perm: Array<number> = [
+/*export const perm: Array<number> = [
   151, 160, 137, 91, 90, 15, 131, 13, 201, 95, 96, 53, 194, 233, 7, 225, 140,
   36, 103, 30, 69, 142, 8, 99, 37, 240, 21, 10, 23, 190, 6, 148, 247, 120, 234,
   75, 0, 26, 197, 62, 94, 252, 219, 203, 117, 35, 11, 32, 57, 177, 33, 88, 237,
@@ -30,7 +30,7 @@ export const perm: Array<number> = [
   49, 192, 214, 31, 181, 199, 106, 157, 184, 84, 204, 176, 115, 121, 50, 45,
   127, 4, 150, 254, 138, 236, 205, 93, 222, 114, 67, 29, 24, 72, 243, 141, 128,
   195, 78, 66, 215, 61, 156, 180,
-];
+];*/
 
 function shuffle(tab: Array<number>) {
   for (let e = tab.length - 1; e > 0; e--) {
@@ -42,7 +42,7 @@ function shuffle(tab: Array<number>) {
   }
 }
 
-function makePermutation() {
+export function makePermutation() {
   let P: number[] = [];
   for (let i = 0; i < 256; i++) {
     P.push(i);
@@ -55,7 +55,6 @@ function makePermutation() {
   return P;
 }
 
-let P = makePermutation();
 
 export function grad2(hash: number, x: number, y: number) {
   const h = hash & 7; // Convert low 3 bits of hash code
@@ -72,7 +71,9 @@ export function lerp(t: number, a: number, b: number) {
   return a + t * (b - a);
 }
 
-export function noise2d(x: number, y: number) {
+export function noise2d(x: number, y: number,perm:number[]) {
+
+
   let ix0, iy0, ix1, iy1;
   let fx0, fy0, fx1, fy1;
   let s, t, nx0, nx1, n0, n1;
