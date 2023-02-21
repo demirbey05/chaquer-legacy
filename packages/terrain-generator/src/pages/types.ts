@@ -20,10 +20,10 @@ const TerrainPrecedence: TerrainType[] = [
 
 // Tailwind class name mapping
 export const terrainToColor = {
-  [TerrainType.Sea]: "bg-sky-400",
-  [TerrainType.Mount]: "bg-gray-500",
-  [TerrainType.Land]: "bg-amber-800",
-  [TerrainType.None]:null
+  [TerrainType.Sea]: "bg-[#0366a4]",
+  [TerrainType.Mount]: "bg-[#beb89f]",
+  [TerrainType.Land]: "bg-[#547315]",
+  [TerrainType.None]: null,
 };
 
 export class Array2D {
