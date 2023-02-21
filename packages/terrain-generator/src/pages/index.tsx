@@ -6,7 +6,8 @@ import { Grid, DataProp } from "./components/Grid";
 import { TerrainType } from "./types";
 import { generateValues, generatePerlinValues } from "./utils";
 import { useState, useEffect } from "react";
-import { Spinner } from '@chakra-ui/react'
+import MySpinner from './components/MySpinner';
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -37,7 +38,8 @@ export default function Home() {
           XWar Game Generator
         </h1>
         {
-          isLoading === true ? <h3>Please wait few seconds. Map is being generated...</h3> : 
+          isLoading === true ? 
+          ( <MySpinner width={width}></MySpinner> ): 
           <div>
           {refresh === 0 ? null : (
             <Grid width={width} height={height} values={values} />
