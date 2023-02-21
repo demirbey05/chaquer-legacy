@@ -4,7 +4,7 @@ import {
   colorInterval,
   IntervalProcessor,
 } from "./types";
-import { noise2d } from "../perlin/perlin2d";
+import { makePermutation, noise2d } from "../perlin/perlin2d";
 export function generateValues(height: number, width: number) {
   let values: Array<Array<TerrainType>> = [[]];
 
@@ -20,11 +20,12 @@ export function generateValues(height: number, width: number) {
 }
 
 export function generatePerlin(height: number, width: number) {
+  const perm:number[] = makePermutation()
   let values: Array2D = new Array2D(height, width);
 
   for (let i = 0; i < 300; i++) {
     for (let j = 0; j < 300; j++) {
-      const terrainIndex = noise2d(i * 0.01, j * 0.01);
+      const terrainIndex = noise2d(i * 0.01, j * 0.01,perm);
       values.set(i, j, terrainIndex);
     }
   }

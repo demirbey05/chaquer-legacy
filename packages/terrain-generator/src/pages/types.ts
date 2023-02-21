@@ -23,6 +23,7 @@ export const terrainToColor = {
   [TerrainType.Sea]: "bg-sky-400",
   [TerrainType.Mount]: "bg-gray-500",
   [TerrainType.Land]: "bg-amber-800",
+  [TerrainType.None]:null
 };
 
 export class Array2D {
@@ -118,15 +119,11 @@ export class IntervalProcessor {
     for (let interval of this.intervals) {
       numberOfUsers.push(interval.numberOfElements);
     }
-    console.log(numberOfUsers);
 
     let sortedNumberOfUsers = [...numberOfUsers].sort(function (a, b) {
       return b - a;
     });
-    console.log(sortedNumberOfUsers);
     let indexSorted = sortedNumberOfUsers.map((element) => {
-      console.log(element);
-      console.log(numberOfUsers.indexOf(element));
       return numberOfUsers.indexOf(element);
     });
     console.log(indexSorted);
