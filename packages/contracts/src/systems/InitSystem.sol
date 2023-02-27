@@ -3,28 +3,27 @@
 pragma solidity ^0.8.0;
 import { System, IWorld } from "solecs/System.sol";
 import { getAddressById } from "solecs/utils.sol";
-import { TerrainComponent, ID as TerrainComponentID } from "components/TerrainComponent.sol";
+import { MapConfigComponent, ID as MapConfigComponentID, MapConfig } from "components/MapConfigComponent.sol";
 uint256 constant ID = uint256(keccak256("system.Init"));
 
 contract InitSystem is System {
   constructor(IWorld _world, address _components) System(_world, _components) {}
 
   function execute(bytes memory args) public returns (bytes memory) {
-    (uint256 coord_x, uint256 coord_y, uint8 terrain) = abi.decode(args, (uint256, uint256, uint8));
+    (uint32 width, uint32 height, bytes memory terrain) = abi.decode(args, (uint32, uint32, bytes));
 
-    executeTyped(coord_x, coord_y, terrain);
+    executeTyped(width, height, terrain);
   }
 
   function executeTyped(
-    uint256 coord_x,
-    uint256 coord_y,
-    uint8 terrain
+    uint32 width,
+    uint32 height,
+    bytes memory terrain
   ) public returns (bytes memory) {
-    TerrainComponent terrainComponent = TerrainComponent(getAddressById(components, TerrainComponentID));
-    uint256 entityID = uint256(keccak256(abi.encodePacked(coord_x, ",", coord_y)));
-    if (terrainComponent.has(entityID) == true) {
+    MapConfigComponent terrainComponent = MapConfigComponent(getAddressById(components, MapConfigComponentID));
+    if ((terrainComponent.isSet()) == true) {
       return new bytes(0);
     }
-    terrainComponent.set(entityID, terrain);
+    terrainComponent.set(MapConfig(width, height, terrain));
   }
 }

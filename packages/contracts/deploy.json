@@ -1,4 +1,4 @@
 {
-  "components": ["TerrainComponent"],
-  "systems": [{ "name": "InitSystem", "writeAccess": ["TerrainComponent"] }]
+  "components": ["MapConfigComponent"],
+  "systems": [{ "name": "InitSystem", "writeAccess": ["MapConfigComponent"] }]
 }
