@@ -1,7 +1,7 @@
 //SPDX-License-Identifier:MIT
 
 pragma solidity ^0.8.0;
-import { Deploy } from "./Deploy.sol";
+import { Deploy } from "./libraries/Deploy.sol";
 import "std-contracts/test/MudTest.t.sol";
 import { console } from "forge-std/console.sol";
 import { MapConfigComponent, ID as MapConfigComponentID } from "components/MapConfigComponent.sol";
