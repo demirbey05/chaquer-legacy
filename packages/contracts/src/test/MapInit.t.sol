@@ -11,32 +11,48 @@ contract MapInitTest is MudTest {
   constructor() MudTest(new Deploy()) {}
 
   function testEnterTerrain() public {
-    bytes
-      memory terrains = hex"03030303030303030303030303030303030303030303030303020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020201010101010101010101010101010101010101010101010101";
+    InitSystem initSystem = InitSystem(getAddressById(systems, InitSystemID));
+    MapConfigComponent mapConfig = MapConfigComponent(getAddressById(components, MapConfigComponentID));
 
-    InitSystem init = InitSystem(system(InitSystemID));
+    bytes memory map1 = bytes(vm.readFile("scripts/mock_data/data1.txt"));
+    initSystem.execute(map1);
+    bytes memory map2 = bytes(vm.readFile("scripts/mock_data/my_file.txt"));
+    initSystem.execute(map2);
 
-    init.executeTyped(10, 10, terrains);
-
-    MapConfigComponent mapConfig = MapConfigComponent(component(MapConfigComponentID));
-    uint256 tryNumber = 3;
-    bytes1 tileSample = mapConfig.getTerrainValue(tryNumber);
-    assertEq(tileSample, terrains[tryNumber]);
+    assertEq(mapConfig.getTerrain(5003), map2[3]);
+    assertEq(mapConfig.getTerrain(10), map1[10]);
+    assertEq(mapConfig.getTerrain(9999), map2[4999]);
   }
 
-  function testFailSettedMapCannotBeChanged() public {
-    uint256 tryNumber = 3;
-    bytes
-      memory terrains1 = hex"03030303030303030303030303030303030303030303030303020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020201010101010101010101010101010101010101010101010101";
-    bytes
-      memory terrains2 = hex"01010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101";
-    InitSystem init = InitSystem(system(InitSystemID));
+  function testTerrainLengthShouldMatch() public {
+    InitSystem initSystem = InitSystem(getAddressById(systems, InitSystemID));
+    MapConfigComponent mapConfig = MapConfigComponent(getAddressById(components, MapConfigComponentID));
 
-    init.executeTyped(10, 10, terrains1);
-    init.executeTyped(10, 10, terrains2);
+    bytes memory map1 = bytes(vm.readFile("scripts/mock_data/data1.txt"));
+    initSystem.execute(map1);
+    bytes memory map2 = bytes(vm.readFile("scripts/mock_data/my_file.txt"));
+    initSystem.execute(map2);
 
-    MapConfigComponent mapConfig = MapConfigComponent(component(MapConfigComponentID));
-    bytes1 tileSample = mapConfig.getTerrainValue(tryNumber);
-    assertEq(tileSample, terrains2[tryNumber]);
+    bytes memory valueAtContract = mapConfig.getValue();
+
+    assertEq(valueAtContract.length, mapConfig.height() * mapConfig.width());
+    console.log(valueAtContract.length);
+  }
+
+  function testFailWhenMoreDataInvolved() public {
+    bytes memory exceedData = hex"0101010101";
+    InitSystem initSystem = InitSystem(getAddressById(systems, InitSystemID));
+    MapConfigComponent mapConfig = MapConfigComponent(getAddressById(components, MapConfigComponentID));
+
+    bytes memory map1 = bytes(vm.readFile("scripts/mock_data/data1.txt"));
+    initSystem.execute(map1);
+    bytes memory map2 = bytes(vm.readFile("scripts/mock_data/my_file.txt"));
+    initSystem.execute(map2);
+    initSystem.execute(exceedData);
+    bytes memory valueAtContract = mapConfig.getValue();
+
+    assertEq(valueAtContract.length, mapConfig.height() * mapConfig.width() + exceedData.length);
+    console.log("Test 2 ");
+    console.log(valueAtContract.length);
   }
 }
