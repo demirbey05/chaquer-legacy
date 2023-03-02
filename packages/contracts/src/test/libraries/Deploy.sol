@@ -13,7 +13,7 @@ contract Deploy is IDeploy {
 
   function deploy(address deployer) external returns (IWorld world) {
     vm.startPrank(deployer);
-    DeployResult memory result = LibDeploy.deploy(deployer, address(0), false);
+    DeployResult memory result = LibDeploy.deploy(deployer, address(0), false, 100, 100);
     world = result.world;
     vm.stopPrank();
   }

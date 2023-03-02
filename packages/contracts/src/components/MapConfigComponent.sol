@@ -7,14 +7,19 @@ uint256 constant SingletonID = 0x60D;
 
 uint256 constant ID = uint256(keccak256("component.MapConfig"));
 
-struct MapConfig {
-  uint32 width;
-  uint32 height;
-  bytes terrain;
-}
-
 contract MapConfigComponent is BareComponent {
-  constructor(address world) BareComponent(world, ID) {}
+  uint256 public currentTerrainLength;
+  uint32 public immutable width;
+  uint32 public immutable height;
+
+  constructor(
+    address world,
+    uint32 _width,
+    uint32 _height
+  ) BareComponent(world, ID) {
+    width = _width;
+    height = _height;
+  }
 
   function getSchema() public pure override returns (string[] memory keys, LibTypes.SchemaValue[] memory values) {
     keys = new string[](3);
@@ -31,20 +36,20 @@ contract MapConfigComponent is BareComponent {
   }
 
   function isSet() public view returns (bool) {
-    return has(SingletonID);
+    return width * height == currentTerrainLength;
   }
 
-  function set(MapConfig memory mapConfig) public {
-    set(SingletonID, abi.encode(mapConfig.width, mapConfig.height, mapConfig.terrain));
+  function set(bytes memory terrainPart) public {
+    entityToValue[SingletonID] = abi.encodePacked(entityToValue[SingletonID], terrainPart);
+    currentTerrainLength = currentTerrainLength + terrainPart.length;
   }
 
-  function getValue() public view returns (MapConfig memory) {
-    (uint32 width, uint32 height, bytes memory terrain) = abi.decode(getRawValue(SingletonID), (uint32, uint32, bytes));
-    return MapConfig(width, height, terrain);
+  function getValue() public view returns (bytes memory) {
+    return getRawValue(SingletonID);
   }
 
-  function getTerrainValue(uint256 index) public returns (bytes1) {
-    (uint32 width, uint32 height, bytes memory terrain) = abi.decode(getRawValue(SingletonID), (uint32, uint32, bytes));
-    return terrain[index];
+  function getTerrain(uint256 index) public view returns (bytes1) {
+    bytes memory data = getValue();
+    return data[index];
   }
 }

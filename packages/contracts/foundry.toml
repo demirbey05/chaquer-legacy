@@ -7,6 +7,7 @@ verbosity = 1
 libs = ["../../node_modules", "../../../mud"]
 src = "src"
 out = "out"
+fs_permissions = [{ access = "read", path = "./"}]
 
 [rpc_endpoints]
-chiado = goerli = "${CHIADO_RPC_URL}"
+chiado = "${CHIADO_RPC_URL}"

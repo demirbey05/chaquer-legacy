@@ -29,7 +29,9 @@ library LibDeploy {
   function deploy(
     address _deployer,
     address _world,
-    bool _reuseComponents
+    bool _reuseComponents,
+    uint32 width,
+    uint32 height
   ) internal returns (DeployResult memory result) {
     result.deployer = _deployer;
 
@@ -46,7 +48,7 @@ library LibDeploy {
       BareComponent comp;
 
       console.log("Deploying MapConfigComponent");
-      comp = new MapConfigComponent(address(result.world));
+      comp = new MapConfigComponent(address(result.world), width, height);
       console.log(address(comp));
     }
 
