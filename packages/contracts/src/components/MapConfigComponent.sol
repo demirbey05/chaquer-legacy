@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+ // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0;
 import { BareComponent } from "solecs/BareComponent.sol";
 import { LibTypes } from "solecs/LibTypes.sol";
@@ -22,17 +22,11 @@ contract MapConfigComponent is BareComponent {
   }
 
   function getSchema() public pure override returns (string[] memory keys, LibTypes.SchemaValue[] memory values) {
-    keys = new string[](3);
-    values = new LibTypes.SchemaValue[](3);
+    keys = new string[](1);
+    values = new LibTypes.SchemaValue[](1);
 
-    keys[0] = "width";
-    values[0] = LibTypes.SchemaValue.UINT32;
-
-    keys[1] = "height";
-    values[1] = LibTypes.SchemaValue.UINT32;
-
-    keys[2] = "terrain";
-    values[2] = LibTypes.SchemaValue.STRING;
+    keys[0] = "value";
+    values[0] = LibTypes.SchemaValue.STRING;
   }
 
   function isSet() public view returns (bool) {
