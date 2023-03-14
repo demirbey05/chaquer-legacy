@@ -8,8 +8,9 @@ struct Coord {
 }
 
 uint256 constant ID = uint256(keccak256("component.Position"));
+
 contract PositionComponent is Component {
-  constructor(address world, uint256 id) Component(world, id) {}
+  constructor(address world) Component(world, ID) {}
 
   function getSchema() public pure override returns (string[] memory keys, LibTypes.SchemaValue[] memory values) {
     keys = new string[](2);
