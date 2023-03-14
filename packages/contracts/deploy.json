@@ -1,4 +1,4 @@
 {
-  "components": ["MapConfigComponent"],
-  "systems": [{ "name": "InitSystem", "writeAccess": ["MapConfigComponent"] }]
+  "components": ["MapConfigComponent","CastleOwnableComponent","PositionComponent"],
+  "systems": [{ "name": "InitSystem", "writeAccess": ["MapConfigComponent"] },{"name":"CastleSettleSystem","writeAccess":["CastleOwnableComponent","PositionComponent"]}]
 }

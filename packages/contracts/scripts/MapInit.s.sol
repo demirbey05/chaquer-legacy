@@ -19,7 +19,7 @@ contract MapInitScript is Script {
     uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
     vm.startBroadcast(deployerPrivateKey);
 
-    World world = World(0xf932D52334e9FB7552a71cbE3786717569c21941);
+    World world = World(0xD28C565D6c62D8c9f1d43cf13dA93deD5e912b7E);
     IUint256Component systems = world.systems();
 
     IUint256Component components = world.components();

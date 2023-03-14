@@ -1,7 +1,7 @@
 //SPDX-License-Identifier:MIT
 
 pragma solidity ^0.8.0;
-import { Deploy } from "./libraries/Deploy.sol";
+import { Deploy } from "./Deploy.sol";
 import "std-contracts/test/MudTest.t.sol";
 import { console } from "forge-std/console.sol";
 import { MapConfigComponent, ID as MapConfigComponentID } from "components/MapConfigComponent.sol";
@@ -13,7 +13,8 @@ contract MapInitTest is MudTest {
   function testEnterTerrain() public {
     InitSystem initSystem = InitSystem(getAddressById(systems, InitSystemID));
     MapConfigComponent mapConfig = MapConfigComponent(getAddressById(components, MapConfigComponentID));
-
+    console.log(mapConfig.getTerrainLength());
+    console.log("sdasad");
     bytes memory map1 = bytes(vm.readFile("scripts/mock_data/data1.txt"));
     initSystem.execute(map1);
     bytes memory map2 = bytes(vm.readFile("scripts/mock_data/my_file.txt"));
@@ -35,7 +36,7 @@ contract MapInitTest is MudTest {
 
     bytes memory valueAtContract = mapConfig.getValue();
 
-    assertEq(valueAtContract.length, mapConfig.height() * mapConfig.width());
+    assertEq(valueAtContract.length, 10000);
     console.log(valueAtContract.length);
   }
 
@@ -51,8 +52,10 @@ contract MapInitTest is MudTest {
     initSystem.execute(exceedData);
     bytes memory valueAtContract = mapConfig.getValue();
 
-    assertEq(valueAtContract.length, mapConfig.height() * mapConfig.width() + exceedData.length);
+    assertEq(valueAtContract.length, 10000 + exceedData.length);
     console.log("Test 2 ");
     console.log(valueAtContract.length);
   }
+
+  /*Single Shot Tests */
 }

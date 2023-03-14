@@ -9,34 +9,19 @@ uint256 constant ID = uint256(keccak256("component.MapConfig"));
 
 contract MapConfigComponent is BareComponent {
   uint256 public currentTerrainLength;
-  uint32 public immutable width;
-  uint32 public immutable height;
 
-  constructor(
-    address world,
-    uint32 _width,
-    uint32 _height
-  ) BareComponent(world, ID) {
-    width = _width;
-    height = _height;
-  }
+  constructor(address world) BareComponent(world, ID) {}
 
   function getSchema() public pure override returns (string[] memory keys, LibTypes.SchemaValue[] memory values) {
-    keys = new string[](3);
-    values = new LibTypes.SchemaValue[](3);
+    keys = new string[](1);
+    values = new LibTypes.SchemaValue[](1);
 
-    keys[0] = "width";
-    values[0] = LibTypes.SchemaValue.UINT32;
-
-    keys[1] = "height";
-    values[1] = LibTypes.SchemaValue.UINT32;
-
-    keys[2] = "terrain";
-    values[2] = LibTypes.SchemaValue.STRING;
+    keys[0] = "value";
+    values[0] = LibTypes.SchemaValue.STRING;
   }
 
-  function isSet() public view returns (bool) {
-    return width * height == currentTerrainLength;
+  function getTerrainLength() public view returns (uint256) {
+    return currentTerrainLength;
   }
 
   function set(bytes memory terrainPart) public {
