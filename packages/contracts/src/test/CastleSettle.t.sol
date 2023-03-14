@@ -21,16 +21,7 @@ contract CastleSettleTest is MudTest {
   PositionComponent position;
 
   function setUp() public override {
-    deployer = utils.getNextUserAddress();
-    world = deploy.deploy(deployer);
-
-    components = world.components();
-    systems = world.systems();
-    alice = utils.getNextUserAddress();
-    bob = utils.getNextUserAddress();
-    eve = utils.getNextUserAddress();
-    SystemStorage.init(world, components);
-
+    super.setUp();
     settleSystem = CastleSettleSystem(getAddressById(systems, CastleSettleSystemID));
     mapConfig = MapConfigComponent(getAddressById(components, MapConfigComponentID));
     initSystem = InitSystem(getAddressById(systems, InitSystemID));
