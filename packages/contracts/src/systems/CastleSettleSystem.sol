@@ -54,7 +54,7 @@ contract CastleSettleSystem is System {
   }
 
   function execute(bytes memory data) public returns (bytes memory) {
-    (uint32 x, uint32 y, address ownerCandidate) = abi.decode(data, (uint32, uint32, address));
+    (uint32 x, uint32 y) = abi.decode(data, (uint32, uint32));
 
     executeTyped(x, y);
   }
