@@ -9,35 +9,48 @@ import { MapConfigComponent, ID as MapConfigComponentID } from "components/MapCo
 import { InitSystem, ID as InitSystemID } from "systems/InitSystem.sol";
 import { CastleOwnableComponent, ID as CastleOwnableComponentID } from "components/CastleOwnableComponent.sol";
 import { PositionComponent, ID as PositionComponentID, Coord } from "components/PositionComponent.sol";
+import { SystemStorage } from "solecs/SystemStorage.sol";
 
 contract CastleSettleTest is MudTest {
   constructor() MudTest(new Deploy()) {}
 
+  MapConfigComponent mapConfig;
+  CastleSettleSystem settleSystem;
+  InitSystem initSystem;
+  CastleOwnableComponent castleOwnable;
+  PositionComponent position;
+
+  function setUp() public override {
+    deployer = utils.getNextUserAddress();
+    world = deploy.deploy(deployer);
+
+    components = world.components();
+    systems = world.systems();
+    alice = utils.getNextUserAddress();
+    bob = utils.getNextUserAddress();
+    eve = utils.getNextUserAddress();
+    SystemStorage.init(world, components);
+
+    settleSystem = CastleSettleSystem(getAddressById(systems, CastleSettleSystemID));
+    mapConfig = MapConfigComponent(getAddressById(components, MapConfigComponentID));
+    initSystem = InitSystem(getAddressById(systems, InitSystemID));
+    castleOwnable = CastleOwnableComponent(getAddressById(components, CastleOwnableComponentID));
+    position = PositionComponent(getAddressById(components, PositionComponentID));
+  }
+
   function testMapIsNotReady() public {
-    CastleSettleSystem settleSystem = CastleSettleSystem(getAddressById(systems, CastleSettleSystemID));
-    MapConfigComponent mapConfig = MapConfigComponent(getAddressById(components, MapConfigComponentID));
-    console.log(mapConfig.getTerrainLength());
     vm.expectRevert(MapIsNotReady.selector);
     settleSystem.executeTyped(3, 5);
   }
 
   function testCoordinatesOutOfBound() public {
-    CastleSettleSystem settleSystem = CastleSettleSystem(getAddressById(systems, CastleSettleSystemID));
-    InitSystem initSystem = InitSystem(getAddressById(systems, InitSystemID));
-    MapConfigComponent mapConfig = MapConfigComponent(getAddressById(components, MapConfigComponentID));
     bytes memory mapData = bytes(vm.readFile("src/test/mock_data/full_data.txt"));
-    console.log("Before Init");
-    console.log(mapConfig.getTerrainLength());
     initSystem.execute(mapData);
-    console.log("After Init");
-    console.log(mapConfig.getTerrainLength());
     vm.expectRevert(CoordinatesOutOfBound.selector);
     settleSystem.executeTyped(300, 400);
   }
 
   function testTileIsNotEmpty() public {
-    CastleSettleSystem settleSystem = CastleSettleSystem(getAddressById(systems, CastleSettleSystemID));
-    InitSystem initSystem = InitSystem(getAddressById(systems, InitSystemID));
     bytes memory mapData = bytes(vm.readFile("src/test/mock_data/full_data.txt"));
     initSystem.execute(mapData);
     settleSystem.executeTyped(3, 4);
@@ -48,8 +61,6 @@ contract CastleSettleTest is MudTest {
   }
 
   function testWrongTerrainType() public {
-    CastleSettleSystem settleSystem = CastleSettleSystem(getAddressById(systems, CastleSettleSystemID));
-    InitSystem initSystem = InitSystem(getAddressById(systems, InitSystemID));
     bytes memory mapData = bytes(vm.readFile("src/test/mock_data/full_data.txt"));
     initSystem.execute(mapData);
     vm.expectRevert(WrongTerrainType.selector);
@@ -58,8 +69,6 @@ contract CastleSettleTest is MudTest {
   }
 
   function testNoCastleRight() public {
-    CastleSettleSystem settleSystem = CastleSettleSystem(getAddressById(systems, CastleSettleSystemID));
-    InitSystem initSystem = InitSystem(getAddressById(systems, InitSystemID));
     bytes memory mapData = bytes(vm.readFile("src/test/mock_data/full_data.txt"));
     initSystem.execute(mapData);
     settleSystem.executeTyped(3, 4);
@@ -69,11 +78,6 @@ contract CastleSettleTest is MudTest {
   }
 
   function testTwoSuccessCastleSettle() public {
-    CastleSettleSystem settleSystem = CastleSettleSystem(getAddressById(systems, CastleSettleSystemID));
-    InitSystem initSystem = InitSystem(getAddressById(systems, InitSystemID));
-    CastleOwnableComponent castleOwnable = CastleOwnableComponent(getAddressById(components, CastleOwnableComponentID));
-    PositionComponent position = PositionComponent(getAddressById(components, PositionComponentID));
-
     bytes memory mapData = bytes(vm.readFile("src/test/mock_data/full_data.txt"));
     initSystem.execute(mapData);
 
