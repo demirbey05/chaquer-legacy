@@ -9,7 +9,6 @@ import { MapConfigComponent, ID as MapConfigComponentID } from "components/MapCo
 import { InitSystem, ID as InitSystemID } from "systems/InitSystem.sol";
 import { CastleOwnableComponent, ID as CastleOwnableComponentID } from "components/CastleOwnableComponent.sol";
 import { PositionComponent, ID as PositionComponentID, Coord } from "components/PositionComponent.sol";
-import { SystemStorage } from "solecs/SystemStorage.sol";
 
 contract CastleSettleTest is MudTest {
   constructor() MudTest(new Deploy()) {}

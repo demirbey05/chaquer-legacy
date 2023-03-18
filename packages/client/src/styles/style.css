@@ -1,0 +1,9 @@
+body::-webkit-scrollbar{
+    display: none;
+    touch-action: auto;
+}
+
+#map{
+    -webkit-overflow-scrolling: touch;
+    touch-action: auto;
+}

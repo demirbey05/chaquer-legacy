@@ -3,7 +3,7 @@ pragma solidity >=0.8.0;
 import { BareComponent } from "solecs/BareComponent.sol";
 import { LibTypes } from "solecs/LibTypes.sol";
 
-uint256 constant SingletonID = 0x60D;
+uint256 constant SingletonID = 0x060D;
 
 uint256 constant ID = uint256(keccak256("component.MapConfig"));
 
