@@ -1,24 +1,11 @@
 import { useComponentValue } from "@latticexyz/react";
 import { useMUD } from "./MUDContext";
+import Menu from "./menu"
 
 export const App = () => {
-  const { components, systems, singletonEntity, singletonEntityId } = useMUD();
-  const counter = useComponentValue(components.Counter, singletonEntity);
+  //const { components, systems, singletonEntity, singletonEntityId } = useMUD();
+ 
   return (
-    <>
-      <div>
-        Counter: <span>{counter?.value ?? "??"}</span>
-      </div>
-      <button
-        type="button"
-        className="border"
-        onClick={(event) => {
-          event.preventDefault();
-          systems["system.Increment"].executeTyped(singletonEntityId);
-        }}
-      >
-        Increment
-      </button>
-    </>
+   <Menu/>
   );
 };
