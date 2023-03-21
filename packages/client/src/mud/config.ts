@@ -11,7 +11,7 @@ export const config: SetupContractConfig & { faucetServiceUrl?: string } = {
   },
   provider: {
     jsonRpcUrl: params.get("rpc") ?? "http://localhost:8545",
-    wsRpcUrl: params.get("wsRpc") ?? "http://localhost:8545",
+    wsRpcUrl: params.get("wsRpc") ?? "ws://localhost:8545",
     chainId: Number(params.get("chainId")) || 31337,
   },
   privateKey: getBurnerWallet().privateKey,

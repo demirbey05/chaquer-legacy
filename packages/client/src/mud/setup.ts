@@ -20,15 +20,20 @@ export const setup = async () => {
 
   result.startSync();
 
-  // For LoadingState Component
+  // For LoadingState updates
   const singletonEntity = world.registerEntity({ id: SingletonID });
 
-  //Register Player Entity
+  // Register player entity
   const address = result.network.connectedAddress.get();
   if (!address) throw new Error("Not connected");
 
   const playerEntityId = address as EntityID;
   const playerEntity = world.registerEntity({ id: playerEntityId });
+
+  const components = {
+    ...result.components,
+    ...clientComponents,
+  };
 
   // Request drip from faucet
   if (!config.devMode && config.faucetServiceUrl) {
@@ -57,13 +62,10 @@ export const setup = async () => {
   return {
     ...result,
     world,
-    SingletonID,
+    singletonEntityId: SingletonID,
     singletonEntity,
     playerEntityId,
     playerEntity,
-    components: {
-      ...result.components,
-      ...clientComponents,
-    },
+    components,
   };
 };
