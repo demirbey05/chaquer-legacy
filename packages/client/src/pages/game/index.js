@@ -1,8 +1,7 @@
 import { Grid } from "../components/TerrainComp/Grid";
 import { useTerrain } from "@/context/TerrainContext";
 import map from '../../../map.json';
-import { ScrollContainer } from 'react-indiana-drag-scroll';
-import 'react-indiana-drag-scroll/dist/style.css'
+import ScrollContainer from 'react-indiana-drag-scroll';
 
 function Game() {
     const { width, height } = useTerrain();
@@ -21,7 +20,7 @@ function Game() {
           <Grid width={width} height={height} values={values} pixelStyles={smallMap} isBorder={true}/>
         </div>
         <div>
-          <ScrollContainer onMouseMove={handleMouseMove} activationDistance={"1px"} vertical={true} horizontal={true} className="scroll-container" style={{ zIndex:"0", cursor:"default", height:"100vh"}} tabIndex="0">
+          <ScrollContainer className="scroll-container" style={{ zIndex:"0", height:"100vh"}} tabIndex="0">
             <Grid width={width} height={height} values={values} pixelStyles={terrainStyles}/>
           </ScrollContainer>
         </div>

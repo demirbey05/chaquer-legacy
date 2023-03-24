@@ -40,11 +40,9 @@
     "react": "18.2.0",
     "react-bootstrap": "^2.7.2",
     "react-dom": "18.2.0",
-    "react-dragscroll": "^2.0.1",
-    "react-indiana-drag-scroll": "^3.0.3-alpha",
+    "react-indiana-drag-scroll": "2.2.0",
     "react-prefixer": "^2.0.1",
     "react-router-dom": "5.3.3",
-    "react-scrollable-anchor": "^0.6.1",
     "threads": "^1.7.0",
     "typescript": "4.9.5"
   },
